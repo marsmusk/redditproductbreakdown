@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reddit — A Product Case Study</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="icon" href="https://redditinc.com/hs-fs/hubfs/Global%20Assets%20-%20Snoo/Full%20Body/Redditinc_Transparency%20Page_ArmsCrossed@2x.png">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --orange: #FF4500;
+      --orange-muted: #FF6534;
+      --off-white: #F9F5F0;
+      --cream: #F2EDE6;
+      --dark: #1A1A1A;
+      --mid: #555;
+      --light: #999;
+      --border: #E0D9D0;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--off-white);
+      color: var(--dark);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 3rem;
+      background: rgba(249,245,240,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.12em;
+      color: var(--orange);
+    }
+    .navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+   }
+
+.logo img {
+  height: 80px; /* adjust as needed */
+}
+    .nav-links { display: flex; gap: 1rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.9rem; letter-spacing: 0.28em; text-transform: uppercase;
+      text-decoration: none; color: var(--mid);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--orange); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 80px;
+    }
+    .hero-left {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 6rem 4rem 6rem 6rem;
+    }
+    .hero-eyebrow {
+      font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .hero-eyebrow::before {
+      content: ''; display: block; width: 30px; height: 1px; background: var(--orange);
+    }
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 7vw, 7rem);
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      margin-bottom: 2rem;
+    }
+    h1 span { color: var(--orange); }
+    .hero-sub {
+      font-size: 1rem; color: var(--mid);
+      max-width: 380px; margin-bottom: 3rem;
+    }
+    .hero-author {
+      font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--light); border-top: 1px solid var(--border); padding-top: 1.5rem;
+    }
+    .hero-author strong { color: var(--dark); font-weight: 500; }
+
+    .hero-right {
+      background: var(--dark);
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 6rem 4rem;
+      position: relative; overflow: hidden;
+    }
+    .hero-right::before {
+      content: 'REDDIT';
+      position: absolute; bottom: -2rem; right: -1rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 12rem; color: rgba(255,69,0,0.08);
+      line-height: 1; pointer-events: none;
+    }
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+    .stat-card {
+      background: #242424;
+      padding: 2rem 1.5rem;
+      transition: background 0.25s;
+    }
+    .stat-card:hover { background: #2c2c2c; }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.6rem; color: var(--orange);
+      letter-spacing: 0.02em; line-height: 1; margin-bottom: 0.5rem;
+    }
+    .stat-label {
+      font-size: 0.72rem; letter-spacing: 0.1em;
+      text-transform: uppercase; color: #888;
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 7rem 6rem; }
+    section:nth-child(even) { background: var(--cream); }
+
+    .section-header {
+      display: flex; align-items: flex-start; gap: 2rem;
+      margin-bottom: 4rem;
+    }
+    .section-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 5rem; color: var(--border);
+      line-height: 1; flex-shrink: 0;
+    }
+    .section-title-block { padding-top: 0.5rem; }
+    .section-eyebrow {
+      font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 0.6rem;
+    }
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.15; font-weight: 400;
+    }
+
+    /* ── MISSION ── */
+    .mission-quote {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-style: italic;
+      line-height: 1.4;
+      color: var(--dark);
+      border-left: 3px solid var(--orange);
+      padding-left: 2rem;
+      margin-bottom: 4rem;
+      max-width: 700px;
+    }
+    .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); }
+    .value-item {
+      background: var(--off-white);
+      padding: 2rem;
+      transition: background 0.2s;
+    }
+    section:nth-child(even) .value-item { background: var(--cream); }
+    .value-item:hover { background: white; }
+    .value-icon { font-size: 4.5rem; margin-bottom: 0.75rem; }
+    .value-name { font-size: 0.85rem; font-weight: 500; letter-spacing: 0.04em; }
+
+    /* ── BUSINESS MODEL ── */
+    .revenue-row { display: grid; grid-template-columns: 3fr 1fr; gap: 4rem; align-items: start; }
+    .revenue-streams { display: flex; flex-direction: column; gap: 0; }
+    .revenue-item {
+      display: grid; grid-template-columns: 60px 1fr;
+      gap: 1.5rem; padding: 2rem 0;
+      border-top: 1px solid var(--border);
+      align-items: start;
+    }
+    .revenue-pct {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem; color: var(--orange); line-height: 1;
+    }
+    .revenue-name { font-weight: 500; margin-bottom: 0.4rem; font-size: 1rem; }
+    .revenue-detail { font-size: 0.85rem; color: var(--mid); }
+    .revenue-amount { font-size: 0.8rem; color: var(--orange); font-weight: 500; margin-top: 0.3rem; }
+
+    .margin-box {
+      background: var(--dark); color: white; padding: 2.5rem;
+    }
+    .margin-item { margin-bottom: 1.75rem; }
+    .margin-item:last-child { margin-bottom: 0; }
+    .margin-label { font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: #888; margin-bottom: 0.4rem; }
+    .margin-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem; color: var(--orange);
+    }
+
+    /* ── DEMOGRAPHICS ── */
+    .demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+    .geo-list { list-style: none; }
+    .geo-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 0; border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+    .geo-pct { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--orange); }
+    .bar-chart { display: flex; flex-direction: column; gap: 1rem; }
+    .bar-row label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--mid); display: block; margin-bottom: 0.4rem; }
+    .bar-track { background: var(--border); height: 4px; border-radius: 2px; }
+    .bar-fill { height: 4px; background: var(--orange); border-radius: 2px; transition: width 1s ease; }
+
+    /* ── FEATURES ── */
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); }
+    .feature-card {
+      background: var(--off-white);
+      padding: 2.5rem 2rem;
+      transition: background 0.2s;
+    }
+    section:nth-child(even) .feature-card { background: var(--cream); }
+    .feature-card:hover { background: white; }
+    .feature-icon { font-size: 4rem; margin-bottom: 1rem; }
+    .feature-name { font-weight: 500; font-size: 1rem; margin-bottom: 0.75rem; }
+    .feature-desc { font-size: 0.85rem; color: var(--mid); }
+
+    /* ── TECH STACK ── */
+    .tech-layout { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3rem; }
+    .tech-group-label {
+      font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 1.5rem;
+    }
+    .tech-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .tech-tag {
+      font-size: 0.78rem; padding: 0.3rem 0.8rem;
+      border: 1px solid var(--border); color: var(--mid);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── TIMELINE ── */
+    .timeline { position: relative; max-width: 640px; }
+    .timeline::before {
+      content: ''; position: absolute; left: 5.5rem; top: 0; bottom: 0;
+      width: 1px; background: var(--border);
+    }
+    .tl-item { display: flex; gap: 3rem; padding: 2.5rem 0; position: relative; }
+    .tl-year {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem; color: var(--orange);
+      width: 4rem; flex-shrink: 0; text-align: right; padding-top: 0.1rem;
+    }
+    .tl-dot {
+      position: absolute; left: 5.1rem; top: 2.9rem;
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--orange); z-index: 1;
+    }
+    .tl-title { font-weight: 500; margin-bottom: 0.5rem; }
+    .tl-body { font-size: 0.875rem; color: var(--mid); }
+
+    /* ── INSIGHTS ── */
+    .insights-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); }
+    .insight-card {
+      background: var(--off-white);
+      padding: 3rem 2.5rem;
+      display: flex; gap: 1.5rem;
+      transition: background 0.2s;
+    }
+    section:nth-child(even) .insight-card { background: var(--cream); }
+    .insight-card:hover { background: white; }
+    .insight-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.5rem; color: var(--border);
+      line-height: 1; flex-shrink: 0;
+    }
+    .insight-title { font-weight: 500; margin-bottom: 0.6rem; }
+    .insight-body { font-size: 0.875rem; color: var(--mid); }
+
+    /* ── PHOTO STRIP ── */
+    .photo-strip {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--border);
+      padding: 0; margin: 0;
+    }
+    .photo-strip img {
+      width: 100%; height: 300px; object-fit: cover;
+      display: block; filter: grayscale(20%);
+      transition: filter 0.4s;
+    }
+    .photo-strip img:hover { filter: grayscale(0%); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark); color: white;
+      padding: 5rem 6rem 3rem;
+    }
+    .footer-top {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      padding-bottom: 3rem; border-bottom: 1px solid #333;
+      margin-bottom: 2rem;
+    }
+    .footer-brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem; color: var(--orange); line-height: 1;
+    }
+    .footer-tagline { font-size: 0.8rem; color: #666; margin-top: 0.5rem; }
+    .footer-meta { text-align: right; }
+    .footer-author { font-size: 1rem; font-weight: 500; color: white; }
+    .footer-sub { font-size: 0.78rem; color: #666; margin-top: 0.4rem; }
+    .footer-bottom { display: flex; justify-content: space-between; font-size: 0.75rem; color: #555; }
+
+    /* ── SCROLL ANIMATION ── */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-left { padding: 4rem 2rem; }
+      .hero-right { padding: 3rem 2rem; }
+      section { padding: 4rem 2rem; }
+      .revenue-row, .demo-grid, .tech-layout { grid-template-columns: 1fr; }
+      .features-grid, .values-grid, .insights-grid { grid-template-columns: 1fr; }
+      .photo-strip { grid-template-columns: 1fr; }
+      footer { padding: 3rem 2rem; }
+      .footer-top { flex-direction: column; gap: 2rem; }
+      .footer-meta { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <div class="logo">
+    <img src="https://download.logo.wine/logo/Reddit/Reddit-Logo.wine.png" alt="Logo">
+  </div>
+  <ul class="nav-links">
+    <li><a href="#mission">Mission</a></li>
+    <li><a href="#business">Business</a></li>
+    <li><a href="#users">Users</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#tech">Tech</a></li>
+    <li><a href="#growth">Growth</a></li>
+    <li><a href="#insights">Insights</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">A Product Case-Study By SIDDHANTA GHOSH</div>
+    <h1>THE FRONT<br />PAGE OF THE<br /><span>INTERNET</span></h1>
+    <p class="hero-sub">A comprehensive analysis of how Reddit became a $10B public company through community-first product design, democratic curation, and authentic human connection.</p>
+    <div class="hero-author">
+      A Case Study by <strong>Siddhanta Ghosh</strong>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-num">121.4M</div>
+        <div class="stat-label">Daily Active Users</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">$2.2B</div>
+        <div class="stat-label">Annual Revenue</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">$530M</div>
+        <div class="stat-label">Net Income (2025)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">138K+</div>
+        <div class="stat-label">Active Subreddits</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PHOTO STRIP -->
+<div class="photo-strip">
+  <img src="https://techcrunch.com/wp-content/uploads/2023/11/snoo_expressions.png?resize=1280,720" alt="Reddit Logo" style="object-fit:contain; background:#FF4500; padding: 3rem;" />
+  <img src="https://s.yimg.com/ny/api/res/1.2/WkfYZsGHw5VFo9Cd5.zebg--/YXBwaWQ9aGlnaGxhbmRlcjt3PTI0MDA7aD0xNjAw/https://s.yimg.com/os/creatr-uploaded-images/2023-10/9c84b680-6246-11ee-befe-213cece2fd7c" alt="Social community" />
+  <img src="https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/9b76/live/fb41df00-1175-11f1-ba61-2b399c307393.jpg" alt="Tech infrastructure" />
+</div>
+
+<!-- MISSION -->
+<section id="mission">
+  <div class="section-header reveal">
+    <div class="section-num">01</div>
+    <div class="section-title-block">
+      <div class="section-eyebrow">Mission &amp; Values</div>
+      <h2>Bring Community,<br />Belonging &amp; Empowerment<br />to the World</h2>
+    </div>
+  </div>
+  <div class="mission-quote reveal">
+    "Bring community, belonging, and empowerment to everyone in the world, CANDIDLY."
+  </div>
+  <div class="values-grid reveal">
+    <div class="value-item"><div class="value-icon">🤝</div><div class="value-name">Remember the Human</div></div>
+    <div class="value-item"><div class="value-icon">🌱</div><div class="value-name">Start with Community</div></div>
+    <div class="value-item"><div class="value-icon">✅</div><div class="value-name">Keep Reddit Real</div></div>
+    <div class="value-item"><div class="value-icon">🔒</div><div class="value-name">Privacy is a Right</div></div>
+    <div class="value-item"><div class="value-icon">💡</div><div class="value-name">Believe in the Good</div></div>
+    <div class="value-item"><div class="value-icon">📢</div><div class="value-name">Transparency &amp; Empowerment</div></div>
+  </div>
+</section>
+
+<!-- BUSINESS MODEL -->
+<section id="business">
+  <div class="section-header reveal">
+    <div class="section-num">02</div>
+    <div class="section-title-block">
+      <div class="section-eyebrow">Business Model</div>
+      <h2>Diversified Revenue<br />Powering Sustainable Growth</h2>
+    </div>
+  </div>
+  <div class="revenue-row">
+    <div class="revenue-streams reveal">
+      <div class="revenue-item">
+        <div class="revenue-pct">94%</div>
+        <div>
+          <div class="revenue-name">Advertising</div>
+          <div class="revenue-detail">Primary driver leveraging Reddit's engaged communities for targeted placements. ARPU of $5.98.</div>
+          <div class="revenue-amount">$690M in Q4 2025 · +75% YoY</div>
+        </div>
+      </div>
+      <div class="revenue-item">
+        <div class="revenue-pct">~5%</div>
+        <div>
+          <div class="revenue-name">AI Data Licensing</div>
+          <div class="revenue-detail">Strategic partnerships with Google and OpenAI, monetizing Reddit's vast authentic UGC repository for AI training data.</div>
+          <div class="revenue-amount">$35M in Q2 2025</div>
+        </div>
+      </div>
+      <div class="revenue-item">
+        <div class="revenue-pct">~1%</div>
+        <div>
+          <div class="revenue-name">Reddit Premium</div>
+          <div class="revenue-detail">Ad-free browsing, exclusive awards, and premium features for dedicated community members.</div>
+          <div class="revenue-amount">$5.99/month subscription</div>
+        </div>
+      </div>
+    </div>
+    <div class="margin-box reveal">
+      <div class="margin-item">
+        <div class="margin-label">Gross Margin</div>
+        <div class="margin-val">91.2%</div>
+      </div>
+      <div class="margin-item">
+        <div class="margin-label">EBITDA</div>
+        <div class="margin-val">$845M</div>
+      </div>
+      <div class="margin-item">
+        <div class="margin-label">Free Cash Flow</div>
+        <div class="margin-val">$684M</div>
+      </div>
+      <div class="margin-item">
+        <div class="margin-label">Balance Sheet</div>
+        <div class="margin-val" style="font-size:1.3rem">Debt-Free</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMOGRAPHICS -->
+<section id="users">
+  <div class="section-header reveal">
+    <div class="section-num">03</div>
+    <div class="section-title-block">
+      <div class="section-eyebrow">User Demographics</div>
+      <h2>A Diverse, Engaged<br />Global Community</h2>
+    </div>
+  </div>
+  <div class="demo-grid">
+    <div class="reveal">
+      <div style="display:flex;gap:3rem;margin-bottom:2.5rem;">
+        <div><div style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--orange)">1.2B+</div><div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--mid)">Monthly Active</div></div>
+        <div><div style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--orange)">70%+</div><div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--mid)">Gen Z &amp; Millennials</div></div>
+        <div><div style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--orange)">30min</div><div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--mid)">Daily Usage (US)</div></div>
+      </div>
+      <div style="font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--orange);margin-bottom:1rem">Geographic Reach</div>
+      <ul class="geo-list">
+        <li class="geo-item"><span>United States</span><span class="geo-pct">51.75%</span></li>
+        <li class="geo-item"><span>India</span><span class="geo-pct">64.1M users</span></li>
+        <li class="geo-item"><span>United Kingdom</span><span class="geo-pct">53.9M users</span></li>
+        <li class="geo-item"><span>International Total</span><span class="geo-pct">55.52%</span></li>
+      </ul>
+    </div>
+    <div class="reveal">
+      <div style="font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--orange);margin-bottom:1.5rem">US Diversity Breakdown</div>
+      <div class="bar-chart">
+        <div class="bar-row"><label>Asian — 36%</label><div class="bar-track"><div class="bar-fill" style="width:36%"></div></div></div>
+        <div class="bar-row"><label>Hispanic — 23%</label><div class="bar-track"><div class="bar-fill" style="width:23%"></div></div></div>
+        <div class="bar-row"><label>White — 21%</label><div class="bar-track"><div class="bar-fill" style="width:21%"></div></div></div>
+        <div class="bar-row"><label>Gen Z — 42% of base</label><div class="bar-track"><div class="bar-fill" style="width:42%"></div></div></div>
+        <div class="bar-row"><label>Male — 57%</label><div class="bar-track"><div class="bar-fill" style="width:57%"></div></div></div>
+        <div class="bar-row"><label>Female — 43%</label><div class="bar-track"><div class="bar-fill" style="width:43%"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-header reveal">
+    <div class="section-num">04</div>
+    <div class="section-title-block">
+      <div class="section-eyebrow">Core Product Features</div>
+      <h2>What Makes Reddit<br />Genuinely Unique</h2>
+    </div>
+  </div>
+  <div class="features-grid reveal">
+    <div class="feature-card">
+      <div class="feature-icon">🏘️</div>
+      <div class="feature-name">Subreddit System</div>
+      <div class="feature-desc">138K+ active communities, organized into public, private, and restricted types. 2.2M+ total with 500+ having over 1M subscribers.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⬆️</div>
+      <div class="feature-name">Democratic Voting</div>
+      <div class="feature-desc">Upvote/downvote system empowers users to surface quality content, processed via RabbitMQ queues for massive-scale reliability.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⭐</div>
+      <div class="feature-name">Karma System</div>
+      <div class="feature-desc">Reputation-based rewards for quality contributions. Monetization opportunities open at 5K+ karma, incentivizing authentic participation.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💬</div>
+      <div class="feature-name">Comment Threading</div>
+      <div class="feature-desc">Nested, collapsible discussions enabling deep, contextual conversations unlike any other platform's feed structure.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🎯</div>
+      <div class="feature-name">Feed Algorithm</div>
+      <div class="feature-desc">ML-based recommendation with sort options — Hot, New, Top, Rising, Best — balancing algorithmic discovery with user control.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📱</div>
+      <div class="feature-name">Mobile Experience</div>
+      <div class="feature-desc">Native iOS (Swift) and Android (Kotlin) apps offering seamless on-the-go community engagement and content discovery.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PHOTO BREAK -->
+<div class="photo-strip">
+  <img src="https://redditinc.com/hubfs/Reddit%20Inc/Blog/Imported_Blog_Media/Dynamic-Product-Ads_Blog-Header_Orangered@2x.png" alt="Community discussion" />
+  <img src="https://redditinc.com/hubfs/Reddit%20Inc/Blog/Imported_Blog_Media/screens-1.png" alt="Data analytics" />
+  <img src="https://redditinc.com/hubfs/BlogHeader_Snoo_Green_003@2x.png" alt="Digital design" />
+</div>
+
+<!-- TECH STACK -->
+<section id="tech">
+  <div class="section-header reveal">
+    <div class="section-num">05</div>
+    <div class="section-title-block">
+      <div class="section-eyebrow">Technical Infrastructure</div>
+      <h2>Built for Billions,<br />Engineered for Reliability</h2>
+    </div>
+  </div>
+  <div class="tech-layout reveal">
+    <div>
+      <div class="tech-group-label">Languages &amp; Frameworks</div>
+      <div class="tech-tags">
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">React</span>
+        <span class="tech-tag">TypeScript</span>
+        <span class="tech-tag">Go</span>
+        <span class="tech-tag">Swift</span>
+        <span class="tech-tag">Kotlin</span>
+        <span class="tech-tag">Pylons</span>
+        <span class="tech-tag">Redux</span>
+      </div>
+    </div>
+    <div>
+      <div class="tech-group-label">Cloud &amp; Infrastructure</div>
+      <div class="tech-tags">
+        <span class="tech-tag">AWS EC2/S3</span>
+        <span class="tech-tag">CloudFront</span>
+        <span class="tech-tag">Google Cloud</span>
+        <span class="tech-tag">NGINX</span>
+        <span class="tech-tag">Docker</span>
+        <span class="tech-tag">Kubernetes</span>
+        <span class="tech-tag">CI/CD</span>
+      </div>
+    </div>
+    <div>
+      <div class="tech-group-label">Data &amp; Messaging</div>
+      <div class="tech-tags">
+        <span class="tech-tag">PostgreSQL</span>
+        <span class="tech-tag">Cassandra</span>
+        <span class="tech-tag">Redis</span>
+        <span class="tech-tag">Kafka</span>
+        <span class="tech-tag">RabbitMQ</span>
+        <span class="tech-tag">Apache Spark</span>
+        <span class="tech-tag">Hadoop</span>
+        <span class="tech-tag">Druid</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GROWTH TIMELINE -->
+<section id="growth">
+  <div class="section-header reveal">
+    <div class="section-num">06</div>
+    <div class="section-title-block">
+      <div class="section-eyebrow">Growth Strategy</div>
+      <h2>From Y Combinator<br />to $10B Public Company</h2>
+    </div>
+  </div>
+  <div class="timeline reveal">
+    <div class="tl-item">
+      <div class="tl-year">2005</div>
+      <div class="tl-dot"></div>
+      <div><div class="tl-title">Founded &amp; Y Combinator</div><div class="tl-body">Steve Huffman and Alexis Ohanian launch Reddit in June. Joins Y Combinator, building early community infrastructure.</div></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2006</div>
+      <div class="tl-dot"></div>
+      <div><div class="tl-title">Condé Nast Acquisition</div><div class="tl-body">Reddit acquired by Condé Nast Publications, providing resources to scale infrastructure and expand the user base.</div></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2011</div>
+      <div class="tl-dot"></div>
+      <div><div class="tl-title">The Digg Migration</div><div class="tl-body">Digg's disastrous redesign drove 35M unique visitors to Reddit, cementing its position as the go-to community platform.</div></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2016</div>
+      <div class="tl-dot"></div>
+      <div><div class="tl-title">Mobile App Launch</div><div class="tl-body">Official iOS and Android apps released, reaching 250M MAUs and unlocking mobile-first growth at scale.</div></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2024</div>
+      <div class="tl-dot"></div>
+      <div><div class="tl-title">Successful IPO</div><div class="tl-body">Went public at $34/share, quickly rising to $57. Valued at $10B — a landmark moment for the platform.</div></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2025</div>
+      <div class="tl-dot"></div>
+      <div><div class="tl-title">First Profitable Year</div><div class="tl-body">$2.2B revenue, $530M net income, 121.4M DAU. AI licensing and advertising excellence drive historic profitability.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- INSIGHTS -->
+<section id="insights">
+  <div class="section-header reveal">
+    <div class="section-num">07</div>
+    <div class="section-title-block">
+      <div class="section-eyebrow">Key Insights</div>
+      <h2>Why Reddit Wins<br />Where Others Don't</h2>
+    </div>
+  </div>
+  <div class="insights-grid reveal">
+    <div class="insight-card">
+      <div class="insight-num">01</div>
+      <div><div class="insight-title">Community First</div><div class="insight-body">Reddit consistently prioritizes authentic community interactions over algorithmic feeds, generating genuine engagement that advertisers and AI companies pay premium for.</div></div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-num">02</div>
+      <div><div class="insight-title">Democratic Curation</div><div class="insight-body">The voting system empowers users to surface quality content organically, creating a self-regulating ecosystem that scales without proportional moderation costs.</div></div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-num">03</div>
+      <div><div class="insight-title">The Niche Advantage</div><div class="insight-body">138K+ subreddits enable ultra-specific communities. This long-tail approach creates irreplaceable spaces for discourse that no competitor can fully replicate.</div></div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-num">04</div>
+      <div><div class="insight-title">Anonymity as Feature</div><div class="insight-body">The privacy-first approach encourages honest conversations without social pressure, producing the authentic content that both users and AI training pipelines crave.</div></div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-num">05</div>
+      <div><div class="insight-title">Monetization Without Compromise</div><div class="insight-body">Multiple revenue streams — advertising, AI licensing, premium — ensure sustainable growth without degrading core UX. A rare balance in social media.</div></div>
+    </div>
+    <div class="insight-card">
+      <div class="insight-num">06</div>
+      <div><div class="insight-title">AI-Era Positioning</div><div class="insight-body">Reddit's vast, authentic UGC repository is a uniquely valuable asset in the AI era. Licensing deals with Google and OpenAI represent an entirely new revenue category.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">REDDIT</div>
+      <div class="footer-tagline">A breakdown of the product.</div>
+    </div>
+    <div class="footer-meta">
+      <div class="footer-author">A Product Case Study by Siddhanta Ghosh</div>
+    </div>
+  </div>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
